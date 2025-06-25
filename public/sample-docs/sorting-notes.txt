@@ -1,0 +1,149 @@
+SORTING ALGORITHMS - QUICK REFERENCE NOTES
+==========================================
+
+1. BUBBLE SORT
+   Time Complexity: O(n²)
+   Space Complexity: O(1)
+   
+   Description: Repeatedly steps through the list, compares adjacent elements and swaps them if they are in the wrong order.
+   
+   Best Case: O(n) when the array is already sorted
+   Worst Case: O(n²) when the array is sorted in reverse order
+   
+   Advantages:
+   - Simple implementation
+   - No additional memory space needed
+   - Stable sorting algorithm
+   
+   Disadvantages:
+   - Inefficient for large datasets
+   - O(n²) time complexity makes it impractical for large lists
+
+2. MERGE SORT
+   Time Complexity: O(n log n)
+   Space Complexity: O(n)
+   
+   Description: Divides the array into two halves, recursively sorts them, and then merges the sorted halves.
+   
+   Best Case: O(n log n)
+   Worst Case: O(n log n)
+   Average Case: O(n log n)
+   
+   Advantages:
+   - Guaranteed O(n log n) time complexity
+   - Stable sorting algorithm
+   - Predictable performance
+   
+   Disadvantages:
+   - Requires O(n) extra space
+   - Not in-place sorting
+
+3. QUICK SORT
+   Time Complexity: O(n log n) average, O(n²) worst case
+   Space Complexity: O(log n)
+   
+   Description: Picks a 'pivot' element and partitions the array around the pivot, then recursively sorts the sub-arrays.
+   
+   Best Case: O(n log n) when pivot divides array into equal halves
+   Worst Case: O(n²) when pivot is always the smallest or largest element
+   Average Case: O(n log n)
+   
+   Advantages:
+   - Fast in practice
+   - In-place sorting (with small recursive overhead)
+   - Cache-efficient
+   
+   Disadvantages:
+   - Worst-case O(n²) time complexity
+   - Not stable
+   - Performance depends on pivot selection
+
+4. HEAP SORT
+   Time Complexity: O(n log n)
+   Space Complexity: O(1)
+   
+   Description: Builds a max heap from the array, then repeatedly extracts the maximum element.
+   
+   Best Case: O(n log n)
+   Worst Case: O(n log n)
+   Average Case: O(n log n)
+   
+   Advantages:
+   - Guaranteed O(n log n) time complexity
+   - In-place sorting
+   - Not affected by input distribution
+   
+   Disadvantages:
+   - Not stable
+   - Slower than quicksort in practice
+   - Poor cache performance
+
+5. INSERTION SORT
+   Time Complexity: O(n²)
+   Space Complexity: O(1)
+   
+   Description: Builds the final sorted array one element at a time by inserting each element into its correct position.
+   
+   Best Case: O(n) when array is already sorted
+   Worst Case: O(n²) when array is sorted in reverse order
+   
+   Advantages:
+   - Simple implementation
+   - Efficient for small datasets
+   - Stable sorting algorithm
+   - In-place sorting
+   - Online algorithm (can sort as it receives data)
+   
+   Disadvantages:
+   - Inefficient for large datasets
+   - O(n²) time complexity
+
+6. SELECTION SORT
+   Time Complexity: O(n²)
+   Space Complexity: O(1)
+   
+   Description: Finds the minimum element in the unsorted portion and swaps it with the first element of the unsorted portion.
+   
+   Best Case: O(n²)
+   Worst Case: O(n²)
+   Average Case: O(n²)
+   
+   Advantages:
+   - Simple implementation
+   - In-place sorting
+   - Minimum number of swaps (O(n))
+   
+   Disadvantages:
+   - Inefficient for large datasets
+   - Not stable
+   - Always O(n²) time complexity
+
+COMPARISON SUMMARY:
+===================
+
+Algorithm      | Best Case | Average Case | Worst Case | Space | Stable
+---------------|-----------|--------------|------------|-------|--------
+Bubble Sort    | O(n)      | O(n²)        | O(n²)      | O(1)  | Yes
+Insertion Sort | O(n)      | O(n²)        | O(n²)      | O(1)  | Yes
+Selection Sort | O(n²)     | O(n²)        | O(n²)      | O(1)  | No
+Merge Sort     | O(n log n)| O(n log n)   | O(n log n) | O(n)  | Yes
+Quick Sort     | O(n log n)| O(n log n)   | O(n²)      | O(log n)| No
+Heap Sort      | O(n log n)| O(n log n)   | O(n log n) | O(1)  | No
+
+WHEN TO USE WHICH ALGORITHM:
+============================
+
+- Small datasets (< 50 elements): Insertion Sort
+- Need stability: Merge Sort
+- Average case performance: Quick Sort
+- Guaranteed O(n log n): Heap Sort or Merge Sort
+- Memory constraints: Heap Sort or Quick Sort (in-place)
+- Nearly sorted data: Insertion Sort or Bubble Sort
+
+ADDITIONAL NOTES:
+=================
+
+- Hybrid algorithms like Timsort (used in Python) and Introsort (used in C++) combine multiple sorting algorithms for optimal performance
+- For very large datasets, external sorting algorithms may be needed
+- Consider the nature of your data when choosing an algorithm
+- In practice, most standard libraries use highly optimized versions of these algorithms 
