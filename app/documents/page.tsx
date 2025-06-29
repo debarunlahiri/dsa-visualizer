@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { 
   FileText, 
-  Upload, 
   BookOpen, 
   Download,
   Eye,
@@ -19,8 +18,6 @@ import DocumentViewer from '@/components/DocumentViewer'
 import Link from 'next/link'
 
 export default function DocumentsPage() {
-  const [demoFile, setDemoFile] = useState<File | null>(null)
-
   // Sample documents for demonstration
   const sampleDocuments = [
     {
@@ -108,17 +105,16 @@ export default function DocumentsPage() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <FileText className="h-5 w-5" />
-                    Upload and View Documents
+                    View Library Documents
                   </CardTitle>
                   <CardDescription>
-                    Support for PDF, DOCX, DOC, TXT, and Markdown files. 
-                    Maximum file size: 50MB
+                    Browse and view documents from our curated library. 
+                    Support for PDF, DOCX, DOC, TXT, and Markdown files.
                   </CardDescription>
                 </CardHeader>
               </Card>
 
               <DocumentViewer 
-                onFileSelect={setDemoFile}
                 className="w-full"
               />
             </div>
@@ -222,9 +218,9 @@ export default function DocumentsPage() {
             <div className="grid gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Sample Documents</CardTitle>
+                  <CardTitle>Available Documents</CardTitle>
                   <CardDescription>
-                    Try out the document viewer with these sample files
+                    Browse through our curated document library
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -266,20 +262,20 @@ export default function DocumentsPage() {
 
               <Card>
                 <CardHeader>
-                  <CardTitle>Upload Your Own</CardTitle>
+                  <CardTitle>Document Library</CardTitle>
                   <CardDescription>
-                    Test the document viewer with your own files
+                    Access documents directly through the viewer
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
-                    <Upload className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                    <h3 className="text-lg font-medium mb-2">Drop files here</h3>
+                  <div className="text-center py-8">
+                    <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <h3 className="text-lg font-medium mb-2">Browse Library Documents</h3>
                     <p className="text-muted-foreground mb-4">
-                      Or click the upload button in the Document Viewer tab
+                      Use the Document Viewer tab to browse and view documents from our curated library
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      Supports: PDF, DOCX, DOC, TXT, MD • Max size: 50MB
+                      Supports: PDF, DOCX, DOC, TXT, MD
                     </p>
                   </div>
                 </CardContent>

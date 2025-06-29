@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { FileText, Download, Eye, Upload, AlertCircle, FolderOpen } from 'lucide-react'
+import { FileText, Download, Eye, AlertCircle, FolderOpen } from 'lucide-react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import dynamic from 'next/dynamic'
@@ -32,7 +32,6 @@ interface DocumentViewerProps {
   fileUrl?: string
   fileName?: string
   fileType?: string
-  onFileSelect?: (file: File) => void
   className?: string
 }
 
@@ -40,10 +39,8 @@ export default function DocumentViewer({
   fileUrl,
   fileName,
   fileType,
-  onFileSelect,
   className = ""
 }: DocumentViewerProps) {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [fileData, setFileData] = useState<string | ArrayBuffer | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -62,51 +59,12 @@ export default function DocumentViewer({
     }
   }, [selectedDocument, fileUrl, isInitialized])
 
-  // Handle file selection
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      setSelectedFile(file)
-      setCurrentFileType(file.type)
-      setCurrentFileName(file.name)
-      setSelectedDocument('')
-      onFileSelect?.(file)
-      loadFile(file)
-    }
-  }
-
   // Handle document selection from public folder
   const handleDocumentSelect = (documentPath: string) => {
     const document = PUBLIC_DOCUMENTS.find(doc => doc.path === documentPath)
     if (document) {
       setSelectedDocument(documentPath)
-      setSelectedFile(null)
       loadDocumentFromPublic(document.path, document.type, document.name)
-    }
-  }
-
-  // Load file data
-  const loadFile = async (file: File) => {
-    setIsLoading(true)
-    setError(null)
-    
-    try {
-      if (file.type === 'application/pdf') {
-        const arrayBuffer = await file.arrayBuffer()
-        setFileData(arrayBuffer)
-      } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-        const arrayBuffer = await file.arrayBuffer()
-        setFileData(arrayBuffer)
-      } else if (file.type.startsWith('text/')) {
-        const text = await file.text()
-        setFileData(text)
-      } else {
-        throw new Error('Unsupported file type')
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load file')
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -240,20 +198,12 @@ export default function DocumentViewer({
                 </span>
               </Badge>
             )}
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" asChild>
-                <label htmlFor="document-upload" className="cursor-pointer">
-                  <Upload className="h-4 w-4 mr-1" />
-                  Upload
-                </label>
+            {fileData && (
+              <Button variant="outline" size="sm">
+                <Download className="h-4 w-4 mr-1" />
+                Download
               </Button>
-              {fileData && (
-                <Button variant="outline" size="sm">
-                  <Download className="h-4 w-4 mr-1" />
-                  Download
-                </Button>
-              )}
-            </div>
+            )}
           </div>
         </div>
         
@@ -276,14 +226,6 @@ export default function DocumentViewer({
             </SelectContent>
           </Select>
         </div>
-        
-        <input
-          id="document-upload"
-          type="file"
-          accept=".pdf,.docx,.doc,.txt,.md"
-          onChange={handleFileSelect}
-          className="hidden"
-        />
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="viewer" className="w-full">
@@ -318,13 +260,7 @@ export default function DocumentViewer({
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">Source</label>
                   <p className="text-sm">
-                    {selectedDocument ? 'Document Library' : selectedFile ? 'Uploaded File' : fileUrl ? 'External URL' : 'Unknown'}
-                  </p>
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">File Size</label>
-                  <p className="text-sm">
-                    {selectedFile?.size ? `${(selectedFile.size / 1024 / 1024).toFixed(2)} MB` : 'Unknown'}
+                    {selectedDocument ? 'Document Library' : fileUrl ? 'External URL' : 'Unknown'}
                   </p>
                 </div>
               </div>
