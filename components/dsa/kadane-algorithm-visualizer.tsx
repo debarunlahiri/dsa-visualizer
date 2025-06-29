@@ -40,7 +40,7 @@ export default function KadaneAlgorithmVisualizer({ initialArray = [-2, 1, -3, 4
   // Initialize array
   useEffect(() => {
     resetVisualization()
-  }, [initialArray])
+  }, [initialArray.join(',')])
 
   const resetVisualization = () => {
     const initArray = initialArray.map((value, index) => ({

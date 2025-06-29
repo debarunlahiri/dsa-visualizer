@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { FileText, Download, Eye, Upload, AlertCircle } from 'lucide-react'
+import { FileText, Download, Eye, Upload, AlertCircle, FolderOpen } from 'lucide-react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import dynamic from 'next/dynamic'
 
 // Dynamically import PDF viewer to avoid SSR issues
@@ -19,6 +20,13 @@ const DOCXViewer = dynamic(() => import('./DOCXViewer'), {
   ssr: false,
   loading: () => <div className="flex items-center justify-center h-64">Loading document viewer...</div>
 })
+
+// Available documents in public folder
+const PUBLIC_DOCUMENTS = [
+  { name: 'DSA Documentation (DOCX)', path: '/dsa.docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' },
+  { name: 'DSA Documentation (TXT)', path: '/dsa.txt', type: 'text/plain' },
+  { name: 'Sorting Notes', path: '/sample-docs/sorting-notes.txt', type: 'text/plain' },
+]
 
 interface DocumentViewerProps {
   fileUrl?: string
@@ -40,6 +48,19 @@ export default function DocumentViewer({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [currentFileType, setCurrentFileType] = useState<string>('')
+  const [selectedDocument, setSelectedDocument] = useState<string>('')
+  const [currentFileName, setCurrentFileName] = useState<string>('')
+  const [isInitialized, setIsInitialized] = useState<boolean>(false)
+
+  // Load default document on component mount
+  useEffect(() => {
+    if (PUBLIC_DOCUMENTS.length > 0 && !selectedDocument && !fileUrl && !isInitialized) {
+      const defaultDoc = PUBLIC_DOCUMENTS[0]
+      setSelectedDocument(defaultDoc.path)
+      setIsInitialized(true)
+      loadDocumentFromPublic(defaultDoc.path, defaultDoc.type, defaultDoc.name)
+    }
+  }, [selectedDocument, fileUrl, isInitialized])
 
   // Handle file selection
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,8 +68,20 @@ export default function DocumentViewer({
     if (file) {
       setSelectedFile(file)
       setCurrentFileType(file.type)
+      setCurrentFileName(file.name)
+      setSelectedDocument('')
       onFileSelect?.(file)
       loadFile(file)
+    }
+  }
+
+  // Handle document selection from public folder
+  const handleDocumentSelect = (documentPath: string) => {
+    const document = PUBLIC_DOCUMENTS.find(doc => doc.path === documentPath)
+    if (document) {
+      setSelectedDocument(documentPath)
+      setSelectedFile(null)
+      loadDocumentFromPublic(document.path, document.type, document.name)
     }
   }
 
@@ -77,18 +110,45 @@ export default function DocumentViewer({
     }
   }
 
-  // Load file from URL
+  // Load document from public folder
+  const loadDocumentFromPublic = async (documentPath: string, documentType: string, documentName: string) => {
+    setIsLoading(true)
+    setError(null)
+    setCurrentFileType(documentType)
+    setCurrentFileName(documentName)
+    
+    try {
+      const response = await fetch(documentPath)
+      if (!response.ok) throw new Error('Failed to fetch document')
+      
+      let data: string | ArrayBuffer
+      if (documentType === 'application/pdf' || documentType.includes('document')) {
+        data = await response.arrayBuffer()
+      } else {
+        data = await response.text()
+      }
+      
+      setFileData(data)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load document')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Load file from URL (existing functionality)
   useEffect(() => {
     if (fileUrl && fileType) {
       setIsLoading(true)
       setError(null)
+      setCurrentFileName(fileName || 'Unknown')
       
       fetch(fileUrl)
-        .then(response => {
+        .then(async response => {
           if (!response.ok) throw new Error('Failed to fetch file')
           return fileType === 'application/pdf' || fileType.includes('document') 
-            ? response.arrayBuffer() 
-            : response.text()
+            ? await response.arrayBuffer()
+            : await response.text()
         })
         .then(data => {
           setFileData(data)
@@ -97,7 +157,7 @@ export default function DocumentViewer({
         .catch(err => setError(err.message))
         .finally(() => setIsLoading(false))
     }
-  }, [fileUrl, fileType])
+  }, [fileUrl, fileType, fileName])
 
   // Get file type icon
   const getFileIcon = (type: string) => {
@@ -172,11 +232,11 @@ export default function DocumentViewer({
             Document Viewer
           </CardTitle>
           <div className="flex items-center gap-2">
-            {(selectedFile || fileName) && (
+            {currentFileName && (
               <Badge variant="outline" className="flex items-center gap-1">
                 <span>{getFileIcon(currentFileType)}</span>
                 <span className="text-xs truncate max-w-32">
-                  {selectedFile?.name || fileName}
+                  {currentFileName}
                 </span>
               </Badge>
             )}
@@ -196,6 +256,27 @@ export default function DocumentViewer({
             </div>
           </div>
         </div>
+        
+        {/* Document selector for public documents */}
+        <div className="flex items-center gap-2 mt-4">
+          <FolderOpen className="h-4 w-4" />
+          <Select value={selectedDocument} onValueChange={handleDocumentSelect}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a document from library..." />
+            </SelectTrigger>
+            <SelectContent>
+              {PUBLIC_DOCUMENTS.map((doc) => (
+                <SelectItem key={doc.path} value={doc.path}>
+                  <div className="flex items-center gap-2">
+                    <span>{getFileIcon(doc.type)}</span>
+                    <span>{doc.name}</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        
         <input
           id="document-upload"
           type="file"
@@ -228,11 +309,17 @@ export default function DocumentViewer({
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">File Name</label>
-                  <p className="text-sm">{selectedFile?.name || fileName || 'No file selected'}</p>
+                  <p className="text-sm">{currentFileName || 'No file selected'}</p>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">File Type</label>
                   <p className="text-sm">{currentFileType || 'Unknown'}</p>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-muted-foreground">Source</label>
+                  <p className="text-sm">
+                    {selectedDocument ? 'Document Library' : selectedFile ? 'Uploaded File' : fileUrl ? 'External URL' : 'Unknown'}
+                  </p>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-muted-foreground">File Size</label>
@@ -240,11 +327,21 @@ export default function DocumentViewer({
                     {selectedFile?.size ? `${(selectedFile.size / 1024 / 1024).toFixed(2)} MB` : 'Unknown'}
                   </p>
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Last Modified</label>
-                  <p className="text-sm">
-                    {selectedFile?.lastModified ? new Date(selectedFile.lastModified).toLocaleDateString() : 'Unknown'}
-                  </p>
+              </div>
+              
+              <div className="mt-4">
+                <label className="text-sm font-medium text-muted-foreground">Available Documents</label>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {PUBLIC_DOCUMENTS.map((doc) => (
+                    <Badge 
+                      key={doc.path} 
+                      variant={selectedDocument === doc.path ? "default" : "secondary"}
+                      className="cursor-pointer"
+                      onClick={() => handleDocumentSelect(doc.path)}
+                    >
+                      {getFileIcon(doc.type)} {doc.name}
+                    </Badge>
+                  ))}
                 </div>
               </div>
               

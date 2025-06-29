@@ -1,6 +1,4 @@
-import { AlgorithmExplanation } from "../algorithm-data"
-
-export const prefixSumExplanationContent: AlgorithmExplanation = {
+export const prefixSumExplanationContent = {
   title: "Prefix Sum / Prefix Product",
   description: "A preprocessing technique that allows for efficient calculation of range sums and products by storing cumulative values.",
   

@@ -19,7 +19,9 @@ interface ArrayVisualizerProps {
   initialArray?: number[]
 }
 
-export default function ArrayBasicsVisualizer({ initialArray = [5, 2, 8, 1, 9, 3] }: ArrayVisualizerProps) {
+const DEFAULT_ARRAY = [5, 2, 8, 1, 9, 3]
+
+export default function ArrayBasicsVisualizer({ initialArray }: ArrayVisualizerProps) {
   const [array, setArray] = useState<ArrayElement[]>([])
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentOperation, setCurrentOperation] = useState<string>("")
@@ -33,7 +35,8 @@ export default function ArrayBasicsVisualizer({ initialArray = [5, 2, 8, 1, 9, 3
 
   // Initialize array
   useEffect(() => {
-    const initArray = initialArray.map((value, index) => ({
+    const arrayToUse = initialArray || DEFAULT_ARRAY
+    const initArray = arrayToUse.map((value, index) => ({
       value,
       index,
       highlighted: false,
@@ -41,7 +44,7 @@ export default function ArrayBasicsVisualizer({ initialArray = [5, 2, 8, 1, 9, 3
       isNew: false
     }))
     setArray(initArray)
-  }, [initialArray])
+  }, [initialArray?.join(',')])
 
   const resetVisualization = () => {
     setIsPlaying(false)

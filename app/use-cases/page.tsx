@@ -71,7 +71,7 @@ const algorithmUseCases: AlgorithmUseCases[] = [
     ],
     realWorldExamples: [
       "Algorithm textbook examples",
-      "Coding interview practice",
+      "Coding practice",
       "Simple embedded system sorting",
       "Prototype and proof-of-concept code"
     ],
@@ -1068,7 +1068,7 @@ def handle_request(request_path):
     realWorldExamples: [
       "Recursive function optimization",
       "Mathematical sequence calculations",
-      "Algorithm interview problems",
+      "Algorithm problems",
       "Performance optimization tutorials"
     ]
   },

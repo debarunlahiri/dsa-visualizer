@@ -46,7 +46,7 @@ export default function SlidingWindowVisualizer({ initialArray = [2, 1, 3, 4, 1,
       isOptimal: false
     }))
     setArray(initArray)
-  }, [initialArray])
+  }, [initialArray.join(',')])
 
   const resetVisualization = () => {
     setIsPlaying(false)

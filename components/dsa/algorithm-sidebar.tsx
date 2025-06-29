@@ -1,8 +1,10 @@
 "use client"
 
-import { ChevronRight, ChevronDown, X } from "lucide-react"
+import { ChevronRight, ChevronDown, X, BookOpen, Code2, Target, CheckCircle, FileText, Home } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import type { AlgorithmCategory } from "@/lib/algorithms/types"
 
 interface AlgorithmSidebarProps {
@@ -24,6 +26,17 @@ export function AlgorithmSidebar({
   onSelectAlgorithm,
   onCloseSidebar,
 }: AlgorithmSidebarProps) {
+  const pathname = usePathname()
+  
+  const mainNavItems = [
+    { href: "/", label: "DSA Visualizations", icon: Home },
+    { href: "/use-cases", label: "Real-World Uses", icon: BookOpen },
+    { href: "/compiler", label: "Online Compiler", icon: Code2 },
+    { href: "/problems", label: "Practice Problems", icon: Target },
+    { href: "/solved-problems", label: "Solved Problems", icon: CheckCircle },
+    { href: "/documents", label: "Documents", icon: FileText },
+  ]
+
   return (
     <div
       className={cn(
@@ -44,7 +57,43 @@ export function AlgorithmSidebar({
       </div>
 
       <div className="overflow-y-auto h-[calc(100vh-4.5rem)] pb-20">
+        {/* Main Navigation */}
+        <nav className="p-4 space-y-1 border-b border-slate-700">
+          <div className="mb-4">
+            <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+              Navigation
+            </h3>
+            {mainNavItems.map((item) => {
+              const Icon = item.icon
+              const isActive = pathname === item.href
+              
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => onCloseSidebar()}
+                  className={cn(
+                    "flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                    isActive
+                      ? "bg-slate-700 text-white"
+                      : "text-slate-300 hover:text-white hover:bg-slate-700"
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.label}
+                </Link>
+              )
+            })}
+          </div>
+        </nav>
+
+        {/* Algorithm Categories */}
         <nav className="p-4 space-y-2">
+          <div className="mb-4">
+            <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+              Algorithm Categories
+            </h3>
+          </div>
           {categories.map((category) => (
             <div key={category.id}>
               <button

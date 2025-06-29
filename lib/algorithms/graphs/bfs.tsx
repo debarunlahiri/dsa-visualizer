@@ -12,15 +12,17 @@ export const bfsExplanationContent = (
     <ol>
       <li>Start from a given vertex (source node) and add it to a queue.</li>
       <li>Mark the source vertex as visited.</li>
-      <li>While the queue is not empty:</li>
-      <ul>
-        <li>Dequeue a vertex from the front of the queue.</li>
-        <li>For each unvisited adjacent vertex of the dequeued vertex:</li>
+      <li>While the queue is not empty:
         <ul>
-          <li>Mark it as visited.</li>
-          <li>Enqueue it.</li>
+          <li>Dequeue a vertex from the front of the queue.</li>
+          <li>For each unvisited adjacent vertex of the dequeued vertex:
+            <ul>
+              <li>Mark it as visited.</li>
+              <li>Enqueue it.</li>
+            </ul>
+          </li>
         </ul>
-      </ul>
+      </li>
     </ol>
     <h3>Applications:</h3>
     <ul>

@@ -3,7 +3,7 @@ import { AlgorithmExplanation } from "@/components/dsa/algorithm-explanation"
 
 export const interviewGuideExplanationContent = (
   <AlgorithmExplanation>
-    <h2>DSA Interview Cheat Sheet</h2>
+    <h2>DSA Cheat Sheet</h2>
     <p>
       This comprehensive guide provides a structured approach to tackling any coding interview problem. 
       It's designed to take you from understanding the problem to implementing an optimal solution using 

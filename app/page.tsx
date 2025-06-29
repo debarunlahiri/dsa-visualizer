@@ -7,9 +7,9 @@ import { AlgorithmMainContent } from "@/components/dsa/algorithm-main-content"
 import { algorithmCategories } from "@/lib/algorithms/categories"
 
 export default function DsaAnimationsPage() {
-  const [selectedAlgorithmId, setSelectedAlgorithmId] = useState<string>("dsa-interview-cheat-sheet")
+  const [selectedAlgorithmId, setSelectedAlgorithmId] = useState<string>("dsa-cheat-sheet")
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
-    new Set(["interview-guide", "complexity-analysis", "sorting", "searching", "trees", "graphs", "hashing", "dynamic-programming", "greedy"]),
+    new Set(["guide", "complexity-analysis", "sorting", "searching", "trees", "graphs", "hashing", "dynamic-programming", "greedy"]),
   )
   const [sidebarOpen, setSidebarOpen] = useState(false)
 

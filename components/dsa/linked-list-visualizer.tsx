@@ -35,7 +35,7 @@ export default function LinkedListVisualizer({ initialValues = [1, 2, 3, 4, 5] }
   // Initialize linked list
   useEffect(() => {
     resetList()
-  }, [initialValues])
+  }, [initialValues.join(',')])
 
   const resetList = () => {
     let newHead: ListNode | null = null

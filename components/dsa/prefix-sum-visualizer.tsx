@@ -46,7 +46,7 @@ export default function PrefixSumVisualizer({ initialArray = [3, 1, 4, 1, 5, 9, 
     }))
     setArray(initArray)
     setIsBuilt(false)
-  }, [initialArray])
+  }, [initialArray.join(',')])
 
   const resetVisualization = () => {
     setIsPlaying(false)

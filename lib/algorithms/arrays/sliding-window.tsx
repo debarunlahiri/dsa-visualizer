@@ -1,6 +1,4 @@
-import { AlgorithmExplanation } from "../algorithm-data"
-
-export const slidingWindowExplanationContent: AlgorithmExplanation = {
+export const slidingWindowExplanationContent = {
   title: "Sliding Window Technique",
   description: "An efficient technique for solving problems involving contiguous subarrays or substrings by maintaining a window that slides across the data structure.",
   

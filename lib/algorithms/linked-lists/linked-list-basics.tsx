@@ -1,6 +1,4 @@
-import { AlgorithmExplanation } from "../algorithm-data"
-
-export const linkedListBasicsExplanationContent: AlgorithmExplanation = {
+export const linkedListBasicsExplanationContent = {
   title: "Linked List Fundamentals",
   description: "A linear data structure where elements are stored in nodes, each containing data and a reference to the next node, enabling dynamic memory allocation.",
   

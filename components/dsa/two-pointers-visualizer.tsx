@@ -44,7 +44,7 @@ export default function TwoPointersVisualizer({ initialArray = [1, 2, 3, 4, 5, 6
     }))
     setArray(initArray)
     setRightPointer(initArray.length - 1)
-  }, [initialArray])
+  }, [initialArray.join(',')])
 
   const resetVisualization = () => {
     setIsPlaying(false)

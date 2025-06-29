@@ -434,7 +434,7 @@ const InterviewGuideVisualizer: React.FC = () => {
     <div className="w-full max-w-7xl mx-auto p-6 bg-slate-900 text-white">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
-          DSA Interview Cheat Sheet
+          DSA Cheat Sheet
         </h1>
         <p className="text-xl text-slate-300">
           Complete guide from problem-solving framework to data structures

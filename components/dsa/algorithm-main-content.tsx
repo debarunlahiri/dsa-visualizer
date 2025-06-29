@@ -2,14 +2,64 @@ import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { AlgorithmSection } from "@/components/dsa/algorithm-section"
 import { AlgorithmCodeTabs } from "@/components/dsa/algorithm-code-tabs"
+import { AlgorithmExplanation } from "@/components/dsa/algorithm-explanation"
 import type { Algorithm } from "@/lib/algorithms/types"
+import React, { useMemo } from "react"
 
 interface AlgorithmMainContentProps {
   selectedAlgorithm?: Algorithm
   onOpenSidebar: () => void
 }
 
+// Helper function to check if explanation is a data object
+function isExplanationDataObject(explanation: any): explanation is {
+  title: string
+  description: string
+  sections: Array<{ title: string; content: string }>
+  codeExamples: Array<any>
+} {
+  return (
+    explanation &&
+    typeof explanation === 'object' &&
+    !React.isValidElement(explanation) &&
+    'title' in explanation &&
+    'description' in explanation &&
+    'sections' in explanation
+  )
+}
+
+// Component to render data object explanations
+function DataObjectExplanation({ data }: { data: {
+  title: string
+  description: string
+  sections: Array<{ title: string; content: string }>
+  codeExamples?: Array<any>
+}}) {
+  return (
+    <AlgorithmExplanation>
+      <h2>{data.title}</h2>
+      <p>{data.description}</p>
+      
+      {data.sections.map((section, index) => (
+        <div key={index}>
+          <h3>{section.title}</h3>
+          <div style={{ whiteSpace: 'pre-line' }}>
+            {section.content}
+          </div>
+        </div>
+      ))}
+    </AlgorithmExplanation>
+  )
+}
+
 export function AlgorithmMainContent({ selectedAlgorithm, onOpenSidebar }: AlgorithmMainContentProps) {
+  // Memoize the component to prevent re-creation on every render
+  const visualizerComponent = useMemo(() => {
+    if (!selectedAlgorithm) return null
+    const SelectedComponent = selectedAlgorithm.component
+    return <SelectedComponent />
+  }, [selectedAlgorithm?.id]) // Only recreate when algorithm ID changes
+
   if (!selectedAlgorithm) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -27,14 +77,21 @@ export function AlgorithmMainContent({ selectedAlgorithm, onOpenSidebar }: Algor
     )
   }
 
-  const SelectedComponent = selectedAlgorithm.component
-
   if (selectedAlgorithm.explanation && selectedAlgorithm.codeSnippets) {
+    // Handle both React components and data objects
+    let explanationSlot: React.ReactNode
+    
+    if (isExplanationDataObject(selectedAlgorithm.explanation)) {
+      explanationSlot = <DataObjectExplanation data={selectedAlgorithm.explanation} />
+    } else {
+      explanationSlot = selectedAlgorithm.explanation
+    }
+
     return (
       <AlgorithmSection
         id={selectedAlgorithm.id}
-        explanationSlot={selectedAlgorithm.explanation}
-        visualizerSlot={<SelectedComponent />}
+        explanationSlot={explanationSlot}
+        visualizerSlot={visualizerComponent}
         codeTabsSlot={<AlgorithmCodeTabs codeSnippets={selectedAlgorithm.codeSnippets} />}
       />
     )
@@ -43,7 +100,7 @@ export function AlgorithmMainContent({ selectedAlgorithm, onOpenSidebar }: Algor
   // Fallback for algorithms without the new structure yet
   return (
     <div className="flex justify-center">
-      <SelectedComponent />
+      {visualizerComponent}
     </div>
   )
 } 

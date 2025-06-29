@@ -29,6 +29,16 @@ import PrefixSumVisualizer from "../../components/dsa/prefix-sum-visualizer"
 import KadaneAlgorithmVisualizer from "../../components/dsa/kadane-algorithm-visualizer"
 import LinkedListVisualizer from "../../components/dsa/linked-list-visualizer"
 import InterviewGuideVisualizer from "../../components/dsa/interview-guide-visualizer"
+import StackVisualizer from "../../components/dsa/stack-visualizer"
+import QueueVisualizer from "../../components/dsa/queue-visualizer"
+import RecursionVisualizer from "../../components/dsa/recursion-visualizer"
+import StringVisualizer from "../../components/dsa/string-visualizer"
+import HeapVisualizer from "../../components/dsa/heap-visualizer"
+import BacktrackingVisualizer from "../../components/dsa/backtracking-visualizer"
+
+// Import new advanced visualizer components
+import TrieVisualizer from "../../components/dsa/trie-visualizer"
+import UnionFindVisualizer from "../../components/dsa/union-find-visualizer"
 
 // Import all existing algorithm data
 import { bubbleSortExplanationContent, bubbleSortCodeSnippets } from "./sorting/bubble-sort"
@@ -60,16 +70,28 @@ import { prefixSumExplanationContent, prefixSumCodeSnippets } from "./arrays/pre
 import { kadaneAlgorithmExplanationContent, kadaneAlgorithmCodeSnippets } from "./arrays/kadane-algorithm"
 import { linkedListBasicsExplanationContent, linkedListBasicsCodeSnippets } from "./linked-lists/linked-list-basics"
 import { interviewGuideExplanationContent, interviewGuideCodeSnippets } from "./interview-guide/interview-guide"
+import { stackBasicsExplanationContent, stackBasicsCodeSnippets } from "./stacks/stack-basics"
+import { queueBasicsExplanationContent, queueBasicsCodeSnippets } from "./queues/queue-basics"
+import { recursionBasicsExplanationContent, recursionBasicsCodeSnippets } from "./recursion/recursion-basics"
+import { stringBasicsExplanationContent, stringBasicsCodeSnippets } from "./strings/string-basics"
+import { heapBasicsExplanationContent, heapBasicsCodeSnippets } from "./heaps/heap-basics"
+import { backtrackingBasicsExplanationContent, backtrackingBasicsCodeSnippets } from "./backtracking/backtracking-basics"
+
+// Import new advanced algorithm data
+import { triesExplanationContent, triesCodeSnippets } from "./trees/tries"
+import { unionFindExplanationContent, unionFindCodeSnippets } from "./disjoint-set/union-find"
+import { dijkstraExplanationContent, dijkstraCodeSnippets } from "./graphs/dijkstra"
+import { kmpExplanationContent, kmpCodeSnippets } from "./strings/kmp-algorithm"
 
 export const algorithmCategories: AlgorithmCategory[] = [
-  // Part 0: Interview Preparation & Strategy
+  // Part 0: Preparation & Strategy
   {
-    id: "interview-guide",
-    title: "Interview Strategy & Problem-Solving Framework",
+    id: "guide",
+    title: "Strategy & Problem-Solving Framework",
     algorithms: [
       {
-        id: "dsa-interview-cheat-sheet",
-        title: "Complete DSA Interview Cheat Sheet & U.P.E.R. Framework",
+        id: "dsa-cheat-sheet",
+        title: "Complete DSA Cheat Sheet & U.P.E.R. Framework",
         component: InterviewGuideVisualizer,
         explanation: interviewGuideExplanationContent,
         codeSnippets: interviewGuideCodeSnippets,
@@ -95,6 +117,13 @@ export const algorithmCategories: AlgorithmCategory[] = [
         component: ComplexityCalculatorVisualizer,
         explanation: complexityCalculationExplanationContent,
         codeSnippets: complexityCalculationCodeSnippets,
+      },
+      {
+        id: "recursion-basics",
+        title: "Recursion Fundamentals",
+        component: RecursionVisualizer,
+        explanation: recursionBasicsExplanationContent,
+        codeSnippets: recursionBasicsCodeSnippets,
       },
     ],
   },
@@ -153,6 +182,28 @@ export const algorithmCategories: AlgorithmCategory[] = [
         component: LinkedListVisualizer,
         explanation: linkedListBasicsExplanationContent,
         codeSnippets: linkedListBasicsCodeSnippets,
+      },
+    ],
+  },
+
+  // Part 2C: Stacks & Queues
+  {
+    id: "stacks-queues",
+    title: "Part 2C: Stacks & Queues",
+    algorithms: [
+      {
+        id: "stack-basics",
+        title: "Stack Data Structure (LIFO)",
+        component: StackVisualizer,
+        explanation: stackBasicsExplanationContent,
+        codeSnippets: stackBasicsCodeSnippets,
+      },
+      {
+        id: "queue-basics",
+        title: "Queue Data Structure (FIFO)",
+        component: QueueVisualizer,
+        explanation: queueBasicsExplanationContent,
+        codeSnippets: queueBasicsCodeSnippets,
       },
     ],
   },
@@ -241,7 +292,7 @@ export const algorithmCategories: AlgorithmCategory[] = [
     ],
   },
 
-  // Part 2: Core Data Structures - Non-Linear
+  // Part 2D: Hash Tables
   {
     id: "hashing",
     title: "Part 2D: Hash Tables",
@@ -255,9 +306,11 @@ export const algorithmCategories: AlgorithmCategory[] = [
       },
     ],
   },
+
+  // Part 2E: Trees & Heaps
   {
     id: "trees",
-    title: "Part 2E: Trees",
+    title: "Part 2E: Trees & Heaps",
     algorithms: [
       {
         id: "binary-tree-traversal",
@@ -273,11 +326,27 @@ export const algorithmCategories: AlgorithmCategory[] = [
         explanation: bstExplanationContent,
         codeSnippets: bstCodeSnippets,
       },
+      {
+        id: "heap-basics",
+        title: "Heaps & Priority Queues",
+        component: HeapVisualizer,
+        explanation: heapBasicsExplanationContent,
+        codeSnippets: heapBasicsCodeSnippets,
+      },
+      {
+        id: "tries",
+        title: "Tries (Prefix Trees)",
+        component: TrieVisualizer,
+        explanation: triesExplanationContent,
+        codeSnippets: triesCodeSnippets,
+      },
     ],
   },
+
+  // Part 2F: Graphs & Connectivity
   {
     id: "graphs",
-    title: "Part 2F: Graphs",
+    title: "Part 2F: Graphs & Connectivity",
     algorithms: [
       {
         id: "bfs",
@@ -292,6 +361,28 @@ export const algorithmCategories: AlgorithmCategory[] = [
         component: GraphDFSVisualizer,
         explanation: dfsExplanationContent,
         codeSnippets: dfsCodeSnippets,
+      },
+      {
+        id: "union-find",
+        title: "Union-Find (Disjoint Set Union)",
+        component: UnionFindVisualizer,
+        explanation: unionFindExplanationContent,
+        codeSnippets: unionFindCodeSnippets,
+      },
+    ],
+  },
+
+  // Part 3C: Advanced Graph Algorithms
+  {
+    id: "advanced-graphs",
+    title: "Part 3C: Advanced Graph Algorithms",
+    algorithms: [
+      {
+        id: "dijkstra",
+        title: "Dijkstra's Shortest Path Algorithm",
+        component: GraphBFSVisualizer, // TODO: Create DijkstraVisualizer
+        explanation: dijkstraExplanationContent,
+        codeSnippets: dijkstraCodeSnippets,
       },
     ],
   },
@@ -329,6 +420,36 @@ export const algorithmCategories: AlgorithmCategory[] = [
         component: GreedyActivitySelectionVisualizer,
         explanation: activitySelectionExplanationContent,
         codeSnippets: activitySelectionCodeSnippets,
+      },
+    ],
+  },
+
+  // Part 3F: String Algorithms
+  {
+    id: "strings",
+    title: "Part 3F: String Algorithms",
+    algorithms: [
+      {
+        id: "string-basics",
+        title: "String Fundamentals & Pattern Matching",
+        component: StringVisualizer,
+        explanation: stringBasicsExplanationContent,
+        codeSnippets: stringBasicsCodeSnippets,
+      },
+    ],
+  },
+
+  // Part 3G: Advanced Problem-Solving Techniques
+  {
+    id: "problem-solving",
+    title: "Part 3G: Advanced Problem-Solving Techniques",
+    algorithms: [
+      {
+        id: "backtracking-basics",
+        title: "Backtracking Algorithm",
+        component: BacktrackingVisualizer,
+        explanation: backtrackingBasicsExplanationContent,
+        codeSnippets: backtrackingBasicsCodeSnippets,
       },
     ],
   },
