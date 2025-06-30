@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Download, Printer, FileText, AlertCircle, FolderOpen, Upload, Maximize2, Minimize2 } from 'lucide-react'
+import { Download, Printer, FileText, AlertCircle, FolderOpen, Maximize2, Minimize2 } from 'lucide-react'
 import * as mammoth from 'mammoth'
 
 // Available DOCX documents in public folder
@@ -17,10 +17,9 @@ const PUBLIC_DOCX_DOCUMENTS = [
 interface DOCXViewerProps {
   fileData?: ArrayBuffer
   className?: string
-  onFileSelect?: (file: File) => void
 }
 
-export default function DOCXViewer({ fileData, className = "", onFileSelect }: DOCXViewerProps) {
+export default function DOCXViewer({ fileData, className = "" }: DOCXViewerProps) {
   const [htmlContent, setHtmlContent] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -28,7 +27,6 @@ export default function DOCXViewer({ fileData, className = "", onFileSelect }: D
   const [selectedDocument, setSelectedDocument] = useState<string>('')
   const [currentFileData, setCurrentFileData] = useState<ArrayBuffer | null>(null)
   const [currentFileName, setCurrentFileName] = useState<string>('')
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [isInitialized, setIsInitialized] = useState<boolean>(false)
   const [isFullView, setIsFullView] = useState<boolean>(false)
 
@@ -42,39 +40,12 @@ export default function DOCXViewer({ fileData, className = "", onFileSelect }: D
     }
   }, [fileData, selectedDocument, isInitialized])
 
-  // Handle file selection
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file && file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-      setSelectedFile(file)
-      setCurrentFileName(file.name)
-      setSelectedDocument('')
-      onFileSelect?.(file)
-      loadFileData(file)
-    }
-  }
-
   // Handle document selection from public folder
   const handleDocumentSelect = (documentPath: string) => {
     const document = PUBLIC_DOCX_DOCUMENTS.find(doc => doc.path === documentPath)
     if (document) {
       setSelectedDocument(documentPath)
-      setSelectedFile(null)
       loadDocumentFromPublic(document.path, document.name)
-    }
-  }
-
-  // Load file data from File object
-  const loadFileData = async (file: File) => {
-    setIsLoading(true)
-    setError(null)
-    
-    try {
-      const arrayBuffer = await file.arrayBuffer()
-      setCurrentFileData(arrayBuffer)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load file')
-      setIsLoading(false)
     }
   }
 
@@ -259,13 +230,6 @@ export default function DOCXViewer({ fileData, className = "", onFileSelect }: D
             <Printer className="h-4 w-4 mr-1" />
             Print
           </Button>
-
-          <Button variant="outline" size="sm" asChild>
-            <label htmlFor="docx-upload" className="cursor-pointer">
-              <Upload className="h-4 w-4 mr-1" />
-              Upload
-            </label>
-          </Button>
         </div>
       </div>
 
@@ -290,14 +254,6 @@ export default function DOCXViewer({ fileData, className = "", onFileSelect }: D
           </Select>
         </div>
       )}
-
-      <input
-        id="docx-upload"
-        type="file"
-        accept=".docx"
-        onChange={handleFileSelect}
-        className="hidden"
-      />
 
       {/* Document Content */}
       <ScrollArea className={isFullView ? "h-[calc(100vh-120px)] w-full" : "h-[600px] w-full"}>
@@ -326,7 +282,7 @@ export default function DOCXViewer({ fileData, className = "", onFileSelect }: D
               <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
               <p className="text-sm text-muted-foreground">No DOCX document selected</p>
               <p className="text-xs text-muted-foreground mt-1">
-                Choose from library or upload a new document
+                Choose from library documents
               </p>
             </div>
           </div>
@@ -340,7 +296,6 @@ export default function DOCXViewer({ fileData, className = "", onFileSelect }: D
             {wordCount > 0 && <span>{wordCount} words</span>}
             <span>Microsoft Word Document</span>
             {selectedDocument && <span>From Library</span>}
-            {selectedFile && <span>Uploaded File</span>}
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="secondary" className="text-xs">DOCX</Badge>

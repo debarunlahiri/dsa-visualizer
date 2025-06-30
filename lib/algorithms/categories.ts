@@ -40,6 +40,9 @@ import BacktrackingVisualizer from "../../components/dsa/backtracking-visualizer
 import TrieVisualizer from "../../components/dsa/trie-visualizer"
 import UnionFindVisualizer from "../../components/dsa/union-find-visualizer"
 
+// Import comprehensive patterns cheat sheet visualizer
+import { PatternsCheatSheetVisualizer } from "../../components/dsa/patterns-cheat-sheet-visualizer"
+
 // Import all existing algorithm data
 import { bubbleSortExplanationContent, bubbleSortCodeSnippets } from "./sorting/bubble-sort"
 import { selectionSortExplanationContent, selectionSortCodeSnippets } from "./sorting/selection-sort"
@@ -83,6 +86,9 @@ import { unionFindExplanationContent, unionFindCodeSnippets } from "./disjoint-s
 import { dijkstraExplanationContent, dijkstraCodeSnippets } from "./graphs/dijkstra"
 import { kmpExplanationContent, kmpCodeSnippets } from "./strings/kmp-algorithm"
 
+// Import new comprehensive patterns guide
+import { problemPatternsExplanationContent, problemPatternsCodeSnippets } from "./problem-patterns/problem-patterns"
+
 export const algorithmCategories: AlgorithmCategory[] = [
   // Part 0: Preparation & Strategy
   {
@@ -95,6 +101,13 @@ export const algorithmCategories: AlgorithmCategory[] = [
         component: InterviewGuideVisualizer,
         explanation: interviewGuideExplanationContent,
         codeSnippets: interviewGuideCodeSnippets,
+      },
+      {
+        id: "patterns-cheat-sheet",
+        title: "DSA Patterns & Problem-Solving Cheat Sheet (LeetCode, HackerRank, Codeforces)",
+        component: PatternsCheatSheetVisualizer,
+        explanation: problemPatternsExplanationContent,
+        codeSnippets: problemPatternsCodeSnippets,
       },
     ],
   },

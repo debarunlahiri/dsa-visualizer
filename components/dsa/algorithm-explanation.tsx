@@ -60,17 +60,17 @@ export function AlgorithmExplanation({ children, className }: AlgorithmExplanati
     <div
       className={cn(
         "prose prose-sm sm:prose-base lg:prose-lg prose-invert max-w-none",
-        "prose-headings:text-sky-300 prose-h2:mb-3 prose-h2:mt-6 prose-h3:text-sky-400 prose-h3:mb-2 prose-h3:mt-5",
-        "prose-p:text-slate-300 prose-p:leading-relaxed",
-        "prose-li:text-slate-300 prose-ol:text-slate-300 prose-ul:text-slate-300",
-        "prose-a:text-teal-400 hover:prose-a:text-teal-300",
-        "prose-strong:text-slate-100",
-        "prose-code:text-amber-400 prose-code:bg-slate-700 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-xs",
-        "prose-pre:bg-slate-800 prose-pre:border prose-pre:border-slate-700 prose-pre:rounded-md prose-pre:p-0", // Remove padding for custom CodeBlock
-        "bg-slate-800/60 p-4 md:p-6 rounded-lg shadow-xl mb-6 md:mb-8",
-        // Additional explicit styling to ensure all text is white
-        "[&_*]:text-slate-300 [&_h2]:text-sky-300 [&_h3]:text-sky-400 [&_strong]:text-slate-100",
-        "[&_li]:text-slate-300 [&_ol]:text-slate-300 [&_ul]:text-slate-300 [&_p]:text-slate-300",
+        "prose-headings:text-blue-400 prose-h2:mb-3 prose-h2:mt-6 prose-h3:text-blue-300 prose-h3:mb-2 prose-h3:mt-5",
+        "prose-p:text-gray-300 prose-p:leading-relaxed",
+        "prose-li:text-gray-300 prose-ol:text-gray-300 prose-ul:text-gray-300",
+        "prose-a:text-blue-400 hover:prose-a:text-blue-300",
+        "prose-strong:text-white",
+        "prose-code:text-amber-400 prose-code:bg-white/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-xs",
+        "prose-pre:bg-white/5 prose-pre:border prose-pre:border-white/10 prose-pre:rounded-md prose-pre:p-0",
+        "p-4 md:p-6 mb-6 md:mb-8",
+        // Text styling for the new dark theme
+        "[&_*]:text-gray-300 [&_h2]:text-blue-400 [&_h3]:text-blue-300 [&_strong]:text-white",
+        "[&_li]:text-gray-300 [&_ol]:text-gray-300 [&_ul]:text-gray-300 [&_p]:text-gray-300",
         className,
       )}
     >

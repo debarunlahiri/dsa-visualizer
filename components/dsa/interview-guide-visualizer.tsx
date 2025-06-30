@@ -23,342 +23,313 @@ const InterviewGuideVisualizer: React.FC = () => {
   }
 
   const FrameworkSection = () => (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-blue-400 mb-2">The U.P.E.R. Framework</h2>
-        <p className="text-slate-300">A step-by-step method to approach ANY coding problem</p>
-      </div>
-      
-      <div className="grid gap-6">
-        {[
-          {
-            letter: "U",
-            title: "Understand & Clarify",
-            icon: <Target className="w-6 h-6" />,
-            description: "Restate the problem, clarify inputs/outputs, identify constraints & edge cases",
-            details: [
-              "Restate the problem in your own words",
-              "Clarify input/output formats",
-              "Ask about constraints (array size, number ranges)",
-              "Identify edge cases (empty input, duplicates, etc.)"
-            ]
-          },
-          {
-            letter: "P",
-            title: "Plan & Strategize",
-            icon: <Lightbulb className="w-6 h-6" />,
-            description: "Start with brute-force, then optimize using the right data structure",
-            details: [
-              "Start with the most obvious, simplest solution",
-              "Analyze time and space complexity",
-              "Identify bottlenecks and optimization opportunities",
-              "Choose the right data structure from the cheat sheet"
-            ]
-          },
-          {
-            letter: "E",
-            title: "Execute (Implement)",
-            icon: <Code className="w-6 h-6" />,
-            description: "Write clean, modular code with good naming conventions",
-            details: [
-              "Talk as you code, explaining each part",
-              "Use clean, descriptive variable names",
-              "Write modular code with helper functions",
-              "Implement your optimized solution"
-            ]
-          },
-          {
-            letter: "R",
-            title: "Review & Refactor",
-            icon: <CheckCircle className="w-6 h-6" />,
-            description: "Test with examples, verify complexity, and refactor if needed",
-            details: [
-              "Dry run with a simple example and edge case",
-              "Test your solution mentally",
-              "Confirm final time and space complexity",
-              "Refactor for readability if possible"
-            ]
-          }
-        ].map((step, index) => (
-          <Card key={step.letter} className="bg-slate-800 border-slate-700">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-3 text-xl">
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">
-                  {step.letter}
-                </div>
-                {step.icon}
-                <span className="text-blue-400">{step.title}</span>
-              </CardTitle>
-              <p className="text-slate-300 ml-16">{step.description}</p>
-            </CardHeader>
-            <CardContent className="ml-16">
-              <ul className="space-y-2">
-                {step.details.map((detail, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-sm text-slate-400">
-                    <div className="w-1.5 h-1.5 bg-blue-400 rounded-full mt-2 flex-shrink-0" />
-                    {detail}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
+    <Collapsible open={openSections.has('framework')} onOpenChange={() => toggleSection('framework')}>
+      <Card className="glass-card border border-white/10">
+        <CollapsibleTrigger asChild>
+          <CardHeader className="cursor-pointer hover:bg-white/5 transition-colors">
+            <CardTitle className="flex items-center justify-between text-xl text-blue-400">
+              <div className="flex items-center gap-2">
+                <Target className="w-6 h-6" />
+                The U.P.E.R. Framework Breakdown:
+              </div>
+              {openSections.has('framework') ? 
+                <ChevronDown className="w-5 h-5" /> : 
+                <ChevronRight className="w-5 h-5" />
+              }
+            </CardTitle>
+          </CardHeader>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <CardContent className="space-y-6">
+            <div className="grid gap-4">
+              <div className="glass border border-white/10 rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-blue-300 mb-2 flex items-center gap-2">
+                  <span className="bg-blue-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">U</span>
+                  Understand
+                </h3>
+                <p className="text-gray-300 mb-2">Clarify the problem, inputs, outputs, and constraints</p>
+                <ul className="text-sm text-gray-400 list-disc list-inside space-y-1">
+                  <li>What are the input types and constraints?</li>
+                  <li>What should the function return?</li>
+                  <li>Are there edge cases to consider?</li>
+                  <li>Can I assume the input is valid?</li>
+                </ul>
+              </div>
+
+              <div className="glass border border-white/10 rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-blue-300 mb-2 flex items-center gap-2">
+                  <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">P</span>
+                  Plan
+                </h3>
+                <p className="text-gray-300 mb-2">Start with brute force, then optimize using appropriate data structures</p>
+                <ul className="text-sm text-gray-400 list-disc list-inside space-y-1">
+                  <li>What's the brute force approach?</li>
+                  <li>Can I use a hash map to optimize?</li>
+                  <li>Is the data sorted? Can I use two pointers?</li>
+                  <li>Do I need to explore all possibilities? Consider backtracking</li>
+                </ul>
+              </div>
+
+              <div className="glass border border-white/10 rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-blue-300 mb-2 flex items-center gap-2">
+                  <span className="bg-green-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">E</span>
+                  Execute
+                </h3>
+                <p className="text-gray-300 mb-2">Implement clean, well-commented code</p>
+                <ul className="text-sm text-gray-400 list-disc list-inside space-y-1">
+                  <li>Start with the optimal approach you planned</li>
+                  <li>Write clean, readable code</li>
+                  <li>Add comments for complex logic</li>
+                  <li>Use meaningful variable names</li>
+                </ul>
+              </div>
+
+              <div className="glass border border-white/10 rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-blue-300 mb-2 flex items-center gap-2">
+                  <span className="bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">R</span>
+                  Review
+                </h3>
+                <p className="text-gray-300 mb-2">Test with examples, verify complexity, and refactor</p>
+                <ul className="text-sm text-gray-400 list-disc list-inside space-y-1">
+                  <li>Test with the provided examples</li>
+                  <li>Consider edge cases</li>
+                  <li>Verify time and space complexity</li>
+                  <li>Can the code be simplified or optimized further?</li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </CollapsibleContent>
+      </Card>
+    </Collapsible>
   )
 
-  const DataStructureCard = ({ title, level, timeComplexity, spaceComplexity, keywords, description, whenToUse, pros, cons }: {
-    title: string
-    level: 'Easy' | 'Medium' | 'Hard'
-    timeComplexity: string
-    spaceComplexity: string
-    keywords: string[]
-    description: string
-    whenToUse: string[]
-    pros: string[]
-    cons: string[]
-  }) => {
-    const levelColors = {
-      Easy: 'bg-green-500',
-      Medium: 'bg-yellow-500', 
-      Hard: 'bg-red-500'
-    }
-
-    return (
-      <Card className="bg-slate-800 border-slate-700 h-full">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-lg text-blue-400">{title}</CardTitle>
-            <Badge className={`${levelColors[level]} text-white`}>
-              {level}
-            </Badge>
-          </div>
-          <p className="text-sm text-slate-300">{description}</p>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <h4 className="text-sm font-semibold text-slate-300 mb-1">Time Complexity</h4>
-              <Badge variant="outline" className="text-xs">{timeComplexity}</Badge>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-slate-300 mb-1">Space Complexity</h4>
-              <Badge variant="outline" className="text-xs">{spaceComplexity}</Badge>
-            </div>
-          </div>
-          
+  const DataStructureCard = ({ title, level, timeComplexity, spaceComplexity, keywords, description, whenToUse, pros, cons }: any) => (
+    <Card className="glass-card border border-white/10">
+      <CardHeader>
+        <CardTitle className="flex items-center justify-between">
+          <span className="text-lg text-blue-400">{title}</span>
+          <Badge variant={level === 'Easy' ? 'default' : level === 'Medium' ? 'secondary' : 'destructive'} className="text-xs">
+            {level}
+          </Badge>
+        </CardTitle>
+        <p className="text-sm text-gray-300">{description}</p>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
           <div>
-            <h4 className="text-sm font-semibold text-slate-300 mb-2">Keywords</h4>
-            <div className="flex flex-wrap gap-1">
-              {keywords.map((keyword, idx) => (
-                <Badge key={idx} variant="secondary" className="text-xs">
-                  {keyword}
-                </Badge>
-              ))}
-            </div>
+            <strong className="text-blue-400">Time: </strong>
+            <span className="text-gray-300">{timeComplexity}</span>
           </div>
-
           <div>
-            <h4 className="text-sm font-semibold text-slate-300 mb-2">When to Use</h4>
-            <ul className="space-y-1">
-              {whenToUse.map((use, idx) => (
-                <li key={idx} className="text-xs text-slate-400 flex items-start gap-1">
-                  <div className="w-1 h-1 bg-blue-400 rounded-full mt-1.5 flex-shrink-0" />
-                  {use}
-                </li>
-              ))}
+            <strong className="text-blue-400">Space: </strong>
+            <span className="text-gray-300">{spaceComplexity}</span>
+          </div>
+        </div>
+
+        <div>
+          <strong className="text-blue-400 text-sm">Keywords: </strong>
+          <div className="flex flex-wrap gap-1 mt-1">
+            {keywords.map((keyword: string, idx: number) => (
+              <Badge key={idx} variant="outline" className="text-xs">
+                {keyword}
+              </Badge>
+            ))}
+          </div>
+        </div>
+
+        <Collapsible>
+          <CollapsibleTrigger asChild>
+            <div className="flex items-center gap-2 cursor-pointer text-sm text-blue-400 hover:text-blue-300">
+              <ChevronRight className="w-4 h-4" />
+              <span>When to Use</span>
+            </div>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="space-y-3 mt-2">
+            <div>
+              <strong className="text-green-400 text-sm">When to Use:</strong>
+              <ul className="text-xs text-gray-400 list-disc list-inside mt-1 space-y-1">
+                {whenToUse.map((use: string, idx: number) => (
+                  <li key={idx}>{use}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <strong className="text-green-400 text-sm">Pros:</strong>
+                <ul className="text-xs text-gray-400 list-disc list-inside mt-1 space-y-1">
+                  {pros.map((pro: string, idx: number) => (
+                    <li key={idx}>{pro}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <strong className="text-red-400 text-sm">Cons:</strong>
+                <ul className="text-xs text-gray-400 list-disc list-inside mt-1 space-y-1">
+                  {cons.map((con: string, idx: number) => (
+                    <li key={idx}>{con}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      </CardContent>
+    </Card>
+  )
+
+  const ExampleSection = () => (
+    <Card className="glass-card border border-white/10">
+      <CardHeader>
+        <CardTitle className="text-xl text-blue-400 flex items-center gap-2">
+          <Code className="w-6 h-6" />
+          Real Example: Two Sum
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="glass border border-white/10 rounded-lg p-4">
+          <h3 className="text-lg font-semibold text-blue-300 mb-2">Problem Statement</h3>
+          <p className="text-gray-300 text-sm">
+            Given an array of integers and a target sum, return indices of two numbers that add up to target.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <div className="glass border border-white/10 rounded-lg p-4">
+            <h4 className="font-semibold text-blue-300 mb-2 flex items-center gap-2">
+              <span className="bg-blue-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">U</span>
+              Understand
+            </h4>
+            <ul className="text-sm text-gray-300 space-y-1">
+              <li>• Input: array of integers, target integer</li>
+              <li>• Output: array of two indices</li>
+              <li>• Assume exactly one solution exists</li>
+              <li>• Can't use same element twice</li>
             </ul>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <h4 className="text-sm font-semibold text-green-400 mb-2">Pros</h4>
-              <ul className="space-y-1">
-                {pros.map((pro, idx) => (
-                  <li key={idx} className="text-xs text-slate-400 flex items-start gap-1">
-                    <div className="w-1 h-1 bg-green-400 rounded-full mt-1.5 flex-shrink-0" />
-                    {pro}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-red-400 mb-2">Cons</h4>
-              <ul className="space-y-1">
-                {cons.map((con, idx) => (
-                  <li key={idx} className="text-xs text-slate-400 flex items-start gap-1">
-                    <div className="w-1 h-1 bg-red-400 rounded-full mt-1.5 flex-shrink-0" />
-                    {con}
-                  </li>
-                ))}
-              </ul>
+          <div className="glass border border-white/10 rounded-lg p-4">
+            <h4 className="font-semibold text-blue-300 mb-2 flex items-center gap-2">
+              <span className="bg-purple-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">P</span>
+              Plan
+            </h4>
+            <div className="text-sm text-gray-300 space-y-2">
+              <p><strong>Approach 1 (Brute Force):</strong> Try all pairs - O(n²) time</p>
+              <p><strong>Approach 2 (Optimized):</strong> Use hash map for O(1) lookups - O(n) time</p>
+              <p><strong>Key insight:</strong> For each number, check if its complement exists</p>
             </div>
           </div>
-        </CardContent>
-      </Card>
-    )
-  }
 
-  const ExampleSection = () => (
-    <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold text-blue-400 mb-2">Example Walkthrough</h2>
-        <p className="text-slate-300">Applying the U.P.E.R. Framework to "Two Sum"</p>
-      </div>
-
-      <Card className="bg-slate-800 border-slate-700">
-        <CardHeader>
-          <CardTitle className="text-xl text-blue-400">Problem: Two Sum</CardTitle>
-          <p className="text-slate-300">
-            Given an array of integers `nums` and an integer `target`, return the indices of the two numbers such that they add up to `target`.
-          </p>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="grid gap-6">
-            <div className="border-l-4 border-blue-500 pl-4">
-              <h3 className="font-semibold text-blue-400 mb-2">U - Understand</h3>
-              <ul className="space-y-1 text-sm text-slate-300">
-                <li>• Restate: "Find two different indices whose values sum to target"</li>
-                <li>• Input: Array of integers, target integer</li>
-                <li>• Output: Array with two indices</li>
-                <li>• Constraints: Exactly one solution exists, can't use same element twice</li>
-              </ul>
-            </div>
-
-            <div className="border-l-4 border-yellow-500 pl-4">
-              <h3 className="font-semibold text-yellow-400 mb-2">P - Plan</h3>
-              <div className="space-y-3">
-                <div>
-                  <h4 className="font-medium text-slate-300">Brute Force:</h4>
-                  <p className="text-sm text-slate-400">Nested loop to check every pair. O(n²) time, O(1) space.</p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-slate-300">Optimized:</h4>
-                  <p className="text-sm text-slate-400">Use Hash Map to store seen numbers. O(n) time, O(n) space.</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="border-l-4 border-green-500 pl-4">
-              <h3 className="font-semibold text-green-400 mb-2">E - Execute</h3>
-              <div className="bg-slate-900 p-4 rounded-lg">
-                <pre className="text-sm text-slate-300 overflow-x-auto">
+          <div className="glass border border-white/10 rounded-lg p-4">
+            <h4 className="font-semibold text-blue-300 mb-2 flex items-center gap-2">
+              <span className="bg-green-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">E</span>
+              Execute
+            </h4>
+            <pre className="bg-black/30 border border-white/10 rounded p-3 text-xs text-gray-300 overflow-x-auto">
 {`def two_sum(nums, target):
-    seen_map = {}  # {value: index}
+    # Hash map to store value -> index
+    num_map = {}
     
     for i, num in enumerate(nums):
         complement = target - num
         
-        if complement in seen_map:
-            return [seen_map[complement], i]
+        # Check if complement exists
+        if complement in num_map:
+            return [num_map[complement], i]
         
-        seen_map[num] = i
+        # Store current number and index
+        num_map[num] = i
     
-    return []`}
-                </pre>
-              </div>
-            </div>
+    return []  # No solution found`}
+            </pre>
+          </div>
 
-            <div className="border-l-4 border-purple-500 pl-4">
-              <h3 className="font-semibold text-purple-400 mb-2">R - Review</h3>
-              <ul className="space-y-1 text-sm text-slate-300">
-                <li>• Dry run: [2,7,11,15], target=9 → [0,1] ✓</li>
-                <li>• Edge cases: [3,3], target=6 → [0,1] ✓</li>
-                <li>• Final complexity: O(n) time, O(n) space ✓</li>
-              </ul>
+          <div className="glass border border-white/10 rounded-lg p-4">
+            <h4 className="font-semibold text-blue-300 mb-2 flex items-center gap-2">
+              <span className="bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">R</span>
+              Review
+            </h4>
+            <div className="text-sm text-gray-300 space-y-2">
+              <p><strong>Test:</strong> nums = [2,7,11,15], target = 9 → [0,1] ✓</p>
+              <p><strong>Time Complexity:</strong> O(n) - single pass through array</p>
+              <p><strong>Space Complexity:</strong> O(n) - hash map storage</p>
+              <p><strong>Edge cases:</strong> Empty array, no solution, duplicate numbers</p>
             </div>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </CardContent>
+    </Card>
   )
 
   const easyDataStructures = [
     {
-      title: "Array / String",
+      title: "Array",
       level: "Easy" as const,
-      timeComplexity: "Access: O(1), Search: O(n)",
-      spaceComplexity: "O(1) - O(n)",
-      keywords: ["sequence", "index", "fixed-size", "contiguous"],
-      description: "Contiguous block of memory holding elements of the same type",
+      timeComplexity: "Access: O(1), Search: O(n), Insert/Delete: O(n)",
+      spaceComplexity: "O(n)",
+      keywords: ["index", "iteration", "subarray", "sorted"],
+      description: "Contiguous memory locations storing elements of the same type",
       whenToUse: [
-        "Store sequence of items",
+        "Know the size beforehand",
         "Need fast random access by index",
-        "Fixed-size collection",
-        "Two Pointers on sorted array",
-        "Sliding Window problems"
+        "Want cache-friendly memory layout",
+        "Simple iteration over elements"
       ],
-      pros: ["Fast random access O(1)", "Cache-friendly", "Simple to use"],
-      cons: ["Fixed size in some languages", "Slow insertion/deletion O(n)"]
+      pros: ["Constant time access", "Memory efficient", "Cache friendly", "Simple to use"],
+      cons: ["Fixed size", "Expensive insertion/deletion", "Wasted space if not full"]
     },
     {
-      title: "Hash Map / Dictionary",
+      title: "Hash Map / Hash Table",
       level: "Easy" as const,
-      timeComplexity: "All ops: O(1) avg",
+      timeComplexity: "Average: O(1) all ops, Worst: O(n)",
       spaceComplexity: "O(n)",
-      keywords: ["frequency", "duplicates", "lookup", "caching", "memoization"],
-      description: "Stores key-value pairs using hash function for fast access",
+      keywords: ["frequency", "lookup", "duplicate", "complement"],
+      description: "Key-value pairs with fast lookup using hash function",
       whenToUse: [
-        "Count frequencies",
-        "Find duplicates",
-        "Fast lookups by key",
-        "Optimize brute force solutions",
-        "Caching/memoization"
+        "Need fast lookups by key",
+        "Counting frequency of elements",
+        "Finding complements or pairs",
+        "Avoiding nested loops"
       ],
-      pros: ["Incredibly fast average case", "Flexible key types", "Dynamic size"],
-      cons: ["Unordered", "Extra space overhead", "Worst case O(n)"]
+      pros: ["Very fast average case", "Flexible key types", "Dynamic sizing", "Intuitive interface"],
+      cons: ["No ordering", "Hash collisions", "Memory overhead", "Worst case O(n)"]
     }
   ]
 
   const mediumDataStructures = [
     {
-      title: "Linked List",
+      title: "Stack",
       level: "Medium" as const,
-      timeComplexity: "Access: O(n), Insert/Delete: O(1)",
+      timeComplexity: "Push/Pop: O(1), Search: O(n)",
       spaceComplexity: "O(n)",
-      keywords: ["dynamic size", "insertion", "deletion", "no random access"],
-      description: "Sequence of nodes where each node points to the next",
+      keywords: ["LIFO", "parentheses", "undo", "call stack", "brackets"],
+      description: "Last In First Out (LIFO) data structure",
       whenToUse: [
-        "Unknown or changing input size",
-        "Fast insertion/deletion needed",
-        "No need for random access",
-        "Fast & Slow pointers technique"
+        "Need to reverse order",
+        "Matching parentheses/brackets",
+        "Undo operations",
+        "Function call management",
+        "Expression evaluation"
       ],
-      pros: ["Dynamic size", "Fast insertion/deletion O(1)", "Memory efficient"],
-      cons: ["No random access", "Extra memory for pointers", "Not cache-friendly"]
+      pros: ["Simple operations", "Memory efficient", "Fast push/pop", "Natural recursion helper"],
+      cons: ["Limited access pattern", "No random access", "Can overflow", "Only top element accessible"]
     },
     {
-      title: "Stack (LIFO)",
+      title: "Queue",
       level: "Medium" as const,
-      timeComplexity: "All ops: O(1)",
+      timeComplexity: "Enqueue/Dequeue: O(1), Search: O(n)",
       spaceComplexity: "O(n)",
-      keywords: ["LIFO", "parentheses", "undo", "backtracking", "next greater"],
-      description: "Last-In, First-Out structure - add/remove from top only",
+      keywords: ["FIFO", "BFS", "scheduling", "buffer"],
+      description: "First In First Out (FIFO) data structure",
       whenToUse: [
-        "LIFO behavior needed",
-        "Parentheses matching",
-        "Undo functionality",
-        "Backtracking algorithms",
-        "Next smaller/greater element"
+        "Process items in order received",
+        "Breadth-first search",
+        "Task scheduling",
+        "Buffer for data streams"
       ],
-      pros: ["Simple operations", "All O(1) operations", "Natural recursion support"],
-      cons: ["Limited access pattern", "Can cause stack overflow"]
-    },
-    {
-      title: "Queue (FIFO)",
-      level: "Medium" as const,
-      timeComplexity: "All ops: O(1)",
-      spaceComplexity: "O(n)",
-      keywords: ["FIFO", "BFS", "level-order", "processing order"],
-      description: "First-In, First-Out structure - add to back, remove from front",
-      whenToUse: [
-        "FIFO behavior needed",
-        "Breadth-First Search (BFS)",
-        "Level-order traversal",
-        "Process items in order received"
-      ],
-      pros: ["Fair processing order", "All O(1) operations", "Perfect for BFS"],
-      cons: ["Limited access pattern", "Memory overhead"]
+      pros: ["Fair ordering", "Simple interface", "Good for BFS", "Natural for streaming"],
+      cons: ["Limited access pattern", "No random access", "Memory overhead", "Only ends accessible"]
     }
   ]
 
@@ -431,95 +402,102 @@ const InterviewGuideVisualizer: React.FC = () => {
   ]
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-6 bg-slate-900 text-white">
+    <div className="w-full max-w-7xl mx-auto p-6 text-white">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-4">
           DSA Cheat Sheet
         </h1>
-        <p className="text-xl text-slate-300">
+        <p className="text-xl text-gray-300">
           Complete guide from problem-solving framework to data structures
         </p>
       </div>
 
-      <Tabs defaultValue="framework" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-5 bg-slate-800">
-          <TabsTrigger value="framework">Framework</TabsTrigger>
-          <TabsTrigger value="easy">Easy (Foundation)</TabsTrigger>
-          <TabsTrigger value="medium">Medium (Linear)</TabsTrigger>
-          <TabsTrigger value="hard">Hard (Complex)</TabsTrigger>
-          <TabsTrigger value="example">Example</TabsTrigger>
-        </TabsList>
+      <div className="space-y-8">
+        <FrameworkSection />
 
-        <TabsContent value="framework">
-          <FrameworkSection />
-        </TabsContent>
+        <Tabs defaultValue="easy" className="w-full">
+          <TabsList className="grid w-full grid-cols-4 glass border border-white/10">
+            <TabsTrigger value="easy" className="data-[state=active]:bg-green-600 data-[state=active]:text-white">
+              Easy
+            </TabsTrigger>
+            <TabsTrigger value="medium" className="data-[state=active]:bg-yellow-600 data-[state=active]:text-white">
+              Medium  
+            </TabsTrigger>
+            <TabsTrigger value="hard" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">
+              Hard
+            </TabsTrigger>
+            <TabsTrigger value="example" className="data-[state=active]:bg-blue-600 data-[state=active]:text-white">
+              Example
+            </TabsTrigger>
+          </TabsList>
 
-        <TabsContent value="easy">
-          <div className="space-y-6">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-green-400 mb-2">Level: Easy (Foundational)</h2>
-              <p className="text-slate-300">Master these first - they're the building blocks</p>
+          <TabsContent value="easy">
+            <div className="space-y-6">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold text-green-400 mb-2">Level: Easy (Linear & Direct)</h2>
+                <p className="text-gray-300">Master these first - they solve 70% of Easy problems</p>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                {easyDataStructures.map((ds, idx) => (
+                  <DataStructureCard key={idx} {...ds} />
+                ))}
+              </div>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {easyDataStructures.map((ds, idx) => (
-                <DataStructureCard key={idx} {...ds} />
-              ))}
-            </div>
-          </div>
-        </TabsContent>
+          </TabsContent>
 
-        <TabsContent value="medium">
-          <div className="space-y-6">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-yellow-400 mb-2">Level: Medium (Linear & Non-Linear)</h2>
-              <p className="text-slate-300">Essential structures for most interview problems</p>
+          <TabsContent value="medium">
+            <div className="space-y-6">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold text-yellow-400 mb-2">Level: Medium (Sequential & Ordered)</h2>
+                <p className="text-gray-300">Essential for process control and ordering</p>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                {mediumDataStructures.map((ds, idx) => (
+                  <DataStructureCard key={idx} {...ds} />
+                ))}
+              </div>
             </div>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {mediumDataStructures.map((ds, idx) => (
-                <DataStructureCard key={idx} {...ds} />
-              ))}
-            </div>
-          </div>
-        </TabsContent>
+          </TabsContent>
 
-        <TabsContent value="hard">
-          <div className="space-y-6">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-red-400 mb-2">Level: Hard (Hierarchical & Complex)</h2>
-              <p className="text-slate-300">Advanced structures for complex problems</p>
+          <TabsContent value="hard">
+            <div className="space-y-6">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold text-red-400 mb-2">Level: Hard (Hierarchical & Complex)</h2>
+                <p className="text-gray-300">Advanced structures for complex problems</p>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                {hardDataStructures.map((ds, idx) => (
+                  <DataStructureCard key={idx} {...ds} />
+                ))}
+              </div>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              {hardDataStructures.map((ds, idx) => (
-                <DataStructureCard key={idx} {...ds} />
-              ))}
+          </TabsContent>
+
+          <TabsContent value="example">
+            <ExampleSection />
+          </TabsContent>
+        </Tabs>
+
+        <Card className="glass-card border border-white/10">
+          <CardContent className="p-6">
+            <h3 className="text-xl font-bold text-blue-400 mb-4">💡 Key Interview Tips</h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li>• Always start with brute force - shows you can solve it</li>
+                <li>• Talk through your thought process out loud</li>
+                <li>• Ask clarifying questions before coding</li>
+                <li>• Test your solution with examples and edge cases</li>
+              </ul>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li>• Use the cheat sheet keywords to identify the right approach</li>
+                <li>• Hash Map is often the key to optimizing O(n²) solutions</li>
+                <li>• Practice the U.P.E.R. framework until it's second nature</li>
+                <li>• Remember: the journey matters more than the destination</li>
+              </ul>
             </div>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="example">
-          <ExampleSection />
-        </TabsContent>
-      </Tabs>
-
-      <Card className="mt-8 bg-gradient-to-r from-blue-900 to-purple-900 border-blue-500">
-        <CardContent className="p-6">
-          <h3 className="text-xl font-bold text-blue-400 mb-4">💡 Key Interview Tips</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            <ul className="space-y-2 text-sm text-slate-300">
-              <li>• Always start with brute force - shows you can solve it</li>
-              <li>• Talk through your thought process out loud</li>
-              <li>• Ask clarifying questions before coding</li>
-              <li>• Test your solution with examples and edge cases</li>
-            </ul>
-            <ul className="space-y-2 text-sm text-slate-300">
-              <li>• Use the cheat sheet keywords to identify the right approach</li>
-              <li>• Hash Map is often the key to optimizing O(n²) solutions</li>
-              <li>• Practice the U.P.E.R. framework until it's second nature</li>
-              <li>• Remember: the journey matters more than the destination</li>
-            </ul>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   )
 }
